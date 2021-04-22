@@ -85,9 +85,14 @@ class Airplane {
       this.tank += gallons;
     }
     drive(distance) {
-      this.odometer += distance;
-      this.tank -= (distance/this.milesPerGallon);
-      if(this.tank === 0) {
+      const drivableMiles = this.tank * this.milesPerGallon;
+      if (distance <= drivableMiles) {
+        this.odometer += distance;
+        this.tank -= (distance/this.milesPerGallon);
+      }
+      else {
+        this.odometer += drivableMiles;
+        this.tank = 0;
         return `I ran out of fuel at ${this.odometer} miles!`
       }
     }
@@ -164,10 +169,21 @@ class Airplane {
      super (attrs);
      this.previousBackground = attrs.previousBackground;
      this.className = attrs.className;
-     this.favSubjects = [];
-     
+    this.favSubjects = attrs.favSubjects;
+   }
+
+   listSubjects() {
+    return `Loving ${this.favSubjects.join(', ')}`;
+  }
+   PRAssignment(subject) {
+     return `${this.name} has submitted a PR for ${subject}`;
+   }
+   sprintChallenge(subject) {
+     return `${this.name} has begun sprint challenge on ${subject}`;
    }
  }
+
+ console.log(Student.favSubjects);
   
   /*
     TASK 6
@@ -182,8 +198,18 @@ class Airplane {
           + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
           + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
   */
- class ProjectManager {
-     
+ class ProjectManager extends Instructor{
+   constructor (attrs) {
+     super (attrs);
+     this.gradClassName = attrs.gradClassName;
+     this.favInstructor = attrs.favInstructor;
+   }
+   standUp(channel) {
+     return `${this.name} announces to ${channel}, @channel standy times!`;
+   }
+   debugsCode(student, subject) {
+     return `${this.name} debugs ${student.name}'s code on ${subject}`;
+   }
  }
   /*
     STRETCH PROBLEM (no tests!)
